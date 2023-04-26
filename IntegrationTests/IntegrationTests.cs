@@ -10,7 +10,7 @@ namespace KeyAsValueObjectDemo.IntegrationTests
     public class IntegrationTests
     {
         Contract _contract = new Contract("A New Book");
-          
+
         ContractContext _context;
 
         public IntegrationTests()
@@ -48,19 +48,30 @@ namespace KeyAsValueObjectDemo.IntegrationTests
         [TestMethod]
         public void NewContractStoresCorrectIdInItsVersion()
         {
-            var assignedVId = _contract.Versions.First().ContractId.Value;
+            var assignedFKId = _contract.Versions.First().ContractId.Value;
             _context.Contracts.Add(_contract);
             _context.SaveChanges();
             _context.ChangeTracker.Clear();
-            var contractFromDB = _context.Contracts.Include(c=>c.Versions).FirstOrDefault();
-            Assert.AreEqual(assignedVId, contractFromDB.Versions.First().ContractId.Value);
+            var contractFromDB = _context.Contracts.Include(c => c.Versions).FirstOrDefault();
+            Assert.AreEqual(assignedFKId, contractFromDB.Versions.First().ContractId.Value);
         }
 
-
-
-
-
         [TestMethod]
+        public void CanQueryByContractIdType()
+        { 
+             var assignedId = _contract.Id;
+        _context.Contracts.Add(_contract);
+            _context.SaveChanges();
+            _context.ChangeTracker.Clear();
+            var contractFromDB = _context.Contracts.FirstOrDefault(c=>c.Id== assignedId);
+            Assert.AreEqual(assignedId.Value, contractFromDB.Id.Value) ;
+    
+            }
+
+
+
+
+    [TestMethod]
         public void NewContractValuesPersistedandRetrieved()
         {
             _context.Contracts.Add(_contract);
