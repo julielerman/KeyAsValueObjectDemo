@@ -37,12 +37,12 @@ namespace KeyAsValueObjectDemo.IntegrationTests
         [TestMethod]
         public void NewContractStoresCorrectId()
         {
-            var assignedId = _contract.Id;
+            var assignedId = _contract.Id.Value;
             _context.Contracts.Add(_contract);
             _context.SaveChanges();
             _context.ChangeTracker.Clear();
             var contractFromDB = _context.Contracts.FirstOrDefault();
-            Assert.AreEqual(assignedId, contractFromDB.Id);
+            Assert.AreEqual(assignedId, contractFromDB.Id.Value);
         }
 
     

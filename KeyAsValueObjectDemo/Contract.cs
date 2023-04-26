@@ -10,7 +10,7 @@ public class Contract:BaseEntity
     {
         Id = new ContractId(Guid.NewGuid());
         AddVersion(new ContractVersion(Id, workingTitle));
-        ContractNumber = $"{Id.ToString()}_{workingTitle}";
+        ContractNumber = $"{Id.Value.ToString()}_{workingTitle}";
     }
     public ContractId Id { get; private set; }
     public string ContractNumber { get; private set; }
