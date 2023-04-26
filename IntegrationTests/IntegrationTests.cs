@@ -45,7 +45,17 @@ namespace KeyAsValueObjectDemo.IntegrationTests
             Assert.AreEqual(assignedId, contractFromDB.Id.Value);
         }
 
-    
+        [TestMethod]
+        public void NewContractStoresCorrectIdInItsVersion()
+        {
+            var assignedVId = _contract.Versions.First().ContractId.Value;
+            _context.Contracts.Add(_contract);
+            _context.SaveChanges();
+            _context.ChangeTracker.Clear();
+            var contractFromDB = _context.Contracts.Include(c=>c.Versions).FirstOrDefault();
+            Assert.AreEqual(assignedVId, contractFromDB.Versions.First().ContractId.Value);
+        }
+
 
 
 
